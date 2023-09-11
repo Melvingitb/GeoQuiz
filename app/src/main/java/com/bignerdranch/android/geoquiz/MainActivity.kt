@@ -14,12 +14,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val questionBank = listOf(
-        Question(R.string.question_australia, true),
-        Question(R.string.question_oceans, true),
-        Question(R.string.question_mideast, false),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_americas, true),
-        Question(R.string.question_asia, true))
+        Question(R.string.question_australia, true, false),
+        Question(R.string.question_oceans, true, false),
+        Question(R.string.question_mideast, false, false),
+        Question(R.string.question_africa, false, false),
+        Question(R.string.question_americas, true, false),
+        Question(R.string.question_asia, true, false))
 
     private var currentIndex = 0
 
@@ -83,6 +83,15 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
         binding.questionTextView.setText(questionTextResId)
+
+        if (questionBank[currentIndex].isAnswered == true && binding.trueButton.isEnabled == true){
+            binding.trueButton.isEnabled = false
+            binding.falseButton.isEnabled = false
+        }
+        else if (questionBank[currentIndex].isAnswered == false && binding.trueButton.isEnabled == false){
+            binding.trueButton.isEnabled = true
+            binding.falseButton.isEnabled = true
+        }
     }
 
     private fun checkAnswer(userAnswer: Boolean){
@@ -96,5 +105,9 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
+
+        binding.trueButton.isEnabled = false
+        binding.falseButton.isEnabled = false
+        questionBank[currentIndex].isAnswered = true
     }
 }
