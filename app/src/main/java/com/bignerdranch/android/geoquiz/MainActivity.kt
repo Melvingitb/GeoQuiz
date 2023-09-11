@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         val questionTextResId = questionBank[currentIndex].textResId
         binding.questionTextView.setText(questionTextResId)
 
+        //check if button has been answered already and enable buttons accordingly
         if (questionBank[currentIndex].isAnswered == true && binding.trueButton.isEnabled == true){
             binding.trueButton.isEnabled = false
             binding.falseButton.isEnabled = false
@@ -106,8 +107,11 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
 
+        //disable buttons and set question to answered
         binding.trueButton.isEnabled = false
         binding.falseButton.isEnabled = false
         questionBank[currentIndex].isAnswered = true
+
+
     }
 }
