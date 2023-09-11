@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_asia, true, false))
 
     private var currentIndex = 0
+    private var questionsAnswered = 0
+    private var numberCorrect = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,6 +106,10 @@ class MainActivity : AppCompatActivity() {
             R.string.incorrect_toast
         }
 
+        if (userAnswer == correctAnswer) {
+            numberCorrect++
+        }
+
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
             .show()
 
@@ -112,6 +118,15 @@ class MainActivity : AppCompatActivity() {
         binding.falseButton.isEnabled = false
         questionBank[currentIndex].isAnswered = true
 
+        questionsAnswered++
 
+        //check if all questions has been answered; if yes, display score
+        if (questionsAnswered == questionBank.size){
+            val score = (numberCorrect.toFloat() / questionsAnswered) * 100
+
+            val scoreMessage = "Quiz Finished! Your Score: ${score.toInt()}%"
+            Toast.makeText(this, scoreMessage, Toast.LENGTH_LONG)
+                .show()
+        }
     }
 }
