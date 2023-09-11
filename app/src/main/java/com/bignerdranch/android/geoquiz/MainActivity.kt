@@ -39,6 +39,15 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        binding.previousButton.setOnClickListener {
+            currentIndex = (currentIndex - 1) % questionBank.size
+            if (currentIndex < 0){
+                currentIndex = questionBank.size - 1
+            }
+            updateQuestion()
+
+        }
+
         updateQuestion()
     }
 
