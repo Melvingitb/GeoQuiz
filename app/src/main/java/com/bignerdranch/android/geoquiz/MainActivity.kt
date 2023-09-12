@@ -16,18 +16,6 @@ class MainActivity : AppCompatActivity() {
 
     private val quizViewModel: QuizViewModel by viewModels()
 
-    private val questionBank = listOf(
-        Question(R.string.question_australia, true, false),
-        Question(R.string.question_oceans, true, false),
-        Question(R.string.question_mideast, false, false),
-        Question(R.string.question_africa, false, false),
-        Question(R.string.question_americas, true, false),
-        Question(R.string.question_asia, true, false))
-
-    private var currentIndex = 0
-    private var questionsAnswered = 0
-    private var numberCorrect = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
@@ -46,16 +34,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
             updateQuestion()
 
         }
 
         binding.previousButton.setOnClickListener {
-            currentIndex = (currentIndex - 1) % questionBank.size
-            if (currentIndex < 0){
-                currentIndex = questionBank.size - 1
-            }
+            quizViewModel.moveToPrev()
             updateQuestion()
 
         }
@@ -89,22 +74,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
 
         //check if button has been answered already and enable buttons accordingly
-        if (questionBank[currentIndex].isAnswered == true && binding.trueButton.isEnabled == true){
+        if (quizViewModel.checkAnswered() == true && binding.trueButton.isEnabled == true){
             binding.trueButton.isEnabled = false
             binding.falseButton.isEnabled = false
         }
-        else if (questionBank[currentIndex].isAnswered == false && binding.trueButton.isEnabled == false){
+        else if (quizViewModel.checkAnswered() == false && binding.trueButton.isEnabled == false){
             binding.trueButton.isEnabled = true
             binding.falseButton.isEnabled = true
         }
     }
 
     private fun checkAnswer(userAnswer: Boolean){
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
 
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
@@ -113,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (userAnswer == correctAnswer) {
-            numberCorrect++
+            quizViewModel.incrementCorrect()
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
@@ -122,13 +107,13 @@ class MainActivity : AppCompatActivity() {
         //disable buttons and set question to answered
         binding.trueButton.isEnabled = false
         binding.falseButton.isEnabled = false
-        questionBank[currentIndex].isAnswered = true
+        quizViewModel.changeAnswered()
 
-        questionsAnswered++
+        quizViewModel.incrementAnswered()
 
         //check if all questions has been answered; if yes, display score
-        if (questionsAnswered == questionBank.size){
-            val score = (numberCorrect.toFloat() / questionsAnswered) * 100
+        if (quizViewModel.getNumberAnswered() == quizViewModel.getBankSize()){
+            val score = (quizViewModel.getNumberCorrect().toFloat() / quizViewModel.getNumberAnswered()) * 100
 
             val scoreMessage = "Quiz Finished! Your Score: ${score.toInt()}%"
             Toast.makeText(this, scoreMessage, Toast.LENGTH_LONG)
