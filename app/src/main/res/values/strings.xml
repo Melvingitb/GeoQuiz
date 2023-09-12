@@ -1,15 +1,13 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
-    <string name="question_australia">Canberra is the capital of Australia.</string>
-    <string name="question_oceans">The Pacific Ocean is larger than
-    the Atlantic Ocean.</string>
-    <string name="question_mideast">The Suez Canal connects the Red Sea
-    and the Indian Ocean.</string>
-    <string name="question_africa">The source of the Nile River is in Egypt.</string>
-    <string name="question_americas">The Amazon River is the longest river
-    in the Americas.</string>
-    <string name="question_asia">Lake Baikal is the world\'s oldest and deepest
-    freshwater lake.</string>
+    <string name="question_1">Gyarados is a flying type.</string>
+    <string name="question_2">Greninja is a dark type.</string>
+    <string name="question_3">Empoleon is an ice type.</string>
+    <string name="question_4">Electrode evolves into Electivire.</string>
+    <string name="question_5">Cynthia is the champion of Diamond and Pearl.</string>
+    <string name="question_6">Kalos is the region of Black and White.</string>
+    <string name="question_7">Psychic type is strong against Ghost type.</string>
+    <string name="question_8">Diantha is the champion of X and Y.</string>
     <string name="true_button">True</string>
     <string name="false_button">False</string>
     <string name="previous_button">Prev</string>
